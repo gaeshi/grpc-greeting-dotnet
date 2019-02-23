@@ -17,10 +17,32 @@ namespace GreeterClient
 
             CallUnary(greetServiceClient, new GreetRequest {Greeting = greeting});
             await CallServerStreamingAsync(greetServiceClient, new GreetManyTimesRequest {Greeting = greeting});
+            await CallClientStreamingAsync(greetServiceClient, new List<LongGreetRequest>
+            {
+                new LongGreetRequest {Greeting = new Greeting {FirstName = "Leonard", LastName = "Hofstadter"}},
+                new LongGreetRequest {Greeting = new Greeting {FirstName = "Howard", LastName = "Wolowitz"}},
+                new LongGreetRequest {Greeting = new Greeting {FirstName = "Raj", LastName = "Koothrappali"}},
+            });
 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+        }
+
+        private static async Task CallClientStreamingAsync(
+            GreetService.GreetServiceClient greetServiceClient,
+            IEnumerable<LongGreetRequest> requests)
+        {
+            var asyncClientStreamingCall = greetServiceClient.LongGreet();
+            foreach (var request in requests)
+            {
+                await asyncClientStreamingCall.RequestStream.WriteAsync(request);
+            }
+
+            await asyncClientStreamingCall.RequestStream.CompleteAsync();
+            var response = await asyncClientStreamingCall.ResponseAsync;
+            Console.WriteLine($"Response: {response.Result}");
+            Console.WriteLine("Done!");
         }
 
         private static async Task CallServerStreamingAsync(GreetService.GreetServiceClient greetServiceClient,

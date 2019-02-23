@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Greet;
@@ -23,6 +24,19 @@ namespace GreeterServer
                 await responseStream.WriteAsync(new GreetManyTimesResponse {Result = result});
                 Thread.Sleep(1000);
             }
+        }
+
+        public override async Task<LongGreetResponse> LongGreet(
+            IAsyncStreamReader<LongGreetRequest> requestStream,
+            ServerCallContext context)
+        {
+            var names = new List<string>();
+            while (await requestStream.MoveNext(CancellationToken.None))
+            {
+                names.Add(requestStream.Current.Greeting.FirstName);
+            }
+
+            return new LongGreetResponse {Result = $"Hello, {string.Join(", ", names)}!"};
         }
     }
 }
