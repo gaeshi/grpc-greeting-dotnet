@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greeter", "Greeter\Greeter.csproj", "{B2CE7583-A070-4843-81ED-72817B7F5AA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreeterClient", "GreeterClient\GreeterClient.csproj", "{884790F7-552F-4873-B1AB-A16A9FD9836B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreeterServer", "GreeterServer\GreeterServer.csproj", "{024B0D50-939E-4D52-8379-F1CDB43AD0DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2CE7583-A070-4843-81ED-72817B7F5AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CE7583-A070-4843-81ED-72817B7F5AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2CE7583-A070-4843-81ED-72817B7F5AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2CE7583-A070-4843-81ED-72817B7F5AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884790F7-552F-4873-B1AB-A16A9FD9836B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884790F7-552F-4873-B1AB-A16A9FD9836B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884790F7-552F-4873-B1AB-A16A9FD9836B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884790F7-552F-4873-B1AB-A16A9FD9836B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024B0D50-939E-4D52-8379-F1CDB43AD0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024B0D50-939E-4D52-8379-F1CDB43AD0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024B0D50-939E-4D52-8379-F1CDB43AD0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024B0D50-939E-4D52-8379-F1CDB43AD0DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
