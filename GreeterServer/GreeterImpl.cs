@@ -38,5 +38,15 @@ namespace GreeterServer
 
             return new LongGreetResponse {Result = $"Hello, {string.Join(", ", names)}!"};
         }
+
+        public override async Task GreetEveryone(IAsyncStreamReader<GreetEveryoneRequest> requestStream,
+            IServerStreamWriter<GreetEveryoneResponse> responseStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext(CancellationToken.None))
+            {
+                await responseStream.WriteAsync(new GreetEveryoneResponse
+                    {Result = $"Hello, {requestStream.Current.Greeting.FirstName}"});
+            }
+        }
     }
 }

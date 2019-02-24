@@ -17,22 +17,40 @@ namespace GreeterClient
 
             CallUnary(greetServiceClient, new GreetRequest {Greeting = greeting});
             await CallServerStreamingAsync(greetServiceClient, new GreetManyTimesRequest {Greeting = greeting});
-            await CallClientStreamingAsync(greetServiceClient, new List<LongGreetRequest>
-            {
-                new LongGreetRequest {Greeting = new Greeting {FirstName = "Leonard", LastName = "Hofstadter"}},
-                new LongGreetRequest {Greeting = new Greeting {FirstName = "Howard", LastName = "Wolowitz"}},
-                new LongGreetRequest {Greeting = new Greeting {FirstName = "Raj", LastName = "Koothrappali"}},
-            });
+            await CallClientStreamingAsync(greetServiceClient);
+            await CallBiDiStreamingAsync(greetServiceClient);
 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
-        private static async Task CallClientStreamingAsync(
-            GreetService.GreetServiceClient greetServiceClient,
-            IEnumerable<LongGreetRequest> requests)
+        private static async Task CallBiDiStreamingAsync(GreetService.GreetServiceClient greetServiceClient)
         {
+            var requests = GreetingGenerator<GreetEveryoneRequest>.GenerateRequests();
+            var call = greetServiceClient.GreetEveryone();
+
+            var responseReaderTask = Task.Run(async () =>
+            {
+                while (await call.ResponseStream.MoveNext())
+                {
+                    Console.WriteLine($"Reply: {call.ResponseStream.Current.Result}");
+                }
+            });
+
+            foreach (var greetEveryoneRequest in requests)
+            {
+                await call.RequestStream.WriteAsync(greetEveryoneRequest);
+            }
+
+            await call.RequestStream.CompleteAsync();
+            await responseReaderTask;
+            Console.WriteLine("Done!");
+        }
+
+        private static async Task CallClientStreamingAsync(GreetService.GreetServiceClient greetServiceClient)
+        {
+            var requests = GreetingGenerator<LongGreetRequest>.GenerateRequests();
             var asyncClientStreamingCall = greetServiceClient.LongGreet();
             foreach (var request in requests)
             {
