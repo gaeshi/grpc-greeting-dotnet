@@ -10,10 +10,6 @@
         <PackageReference Include="Grpc.Tools" Version="1.17.0" PrivateAssets="All" />
     </ItemGroup>
     
-    <Target Name="Protobuf_Compile_Before_AssemblyReferences" BeforeTargets="ResolveAssemblyReferences">
-        <CallTarget Targets="_Protobuf_Compile_BeforeCsCompile" />
-    </Target>
-    
     <ItemGroup>
         <Folder Include="proto"/>
         <Protobuf Include="proto/greet.proto" Link="proto/greet.proto" />
